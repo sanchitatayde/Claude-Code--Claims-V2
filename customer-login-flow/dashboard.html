@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Zoop.one · Dashboard</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="phone">
+  <div class="body">
+    <div class="dash-greet">
+      <h1>Hi Ramesh 👋</h1>
+      <p>Let's get your claim started.</p>
+    </div>
+
+    <div class="ongoing-carousel" id="ongoingCarousel">
+      <a href="claim-status.html" class="ongoing-card">
+        <div class="ongoing-top">
+          <div class="ongoing-label">Ongoing Claim · 1 of 2</div>
+          <span class="chip chip-warn">In Survey</span>
+        </div>
+        <div class="ongoing-vehicle" id="ongoingVehicle">Hyundai Verna Lxi</div>
+        <div class="ongoing-sub">MH 44 H 5475 · ZP-CLM-2026-04-1842</div>
+        <div class="ongoing-update">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 7 12 12 15 14"/></svg>
+          Surveyor visit scheduled · 30 Apr 2026, 11:00 AM
+        </div>
+      </a>
+      <a href="claim-status.html" class="ongoing-card">
+        <div class="ongoing-top">
+          <div class="ongoing-label">Ongoing Claim · 2 of 2</div>
+          <span class="chip chip-success">Under Repair</span>
+        </div>
+        <div class="ongoing-vehicle">Maruti Swift Vxi</div>
+        <div class="ongoing-sub">MH 32 H 4389 · ZP-CLM-2026-04-2017</div>
+        <div class="ongoing-update">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 7 12 12 15 14"/></svg>
+          Estimate approved · Repair in progress at MGF Motors
+        </div>
+      </a>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+      <span class="carousel-dot active"></span>
+      <span class="carousel-dot"></span>
+    </div>
+
+    <a href="#" class="primary-tile">
+      <div class="text">
+        <strong>File a New Claim</strong>
+        <span>Start your claim registration</span>
+      </div>
+      <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="9 6 15 12 9 18"/></svg>
+    </a>
+
+    <div class="section-head">
+      <h2>Past Claims</h2>
+      <a href="#" class="see-all">See all</a>
+    </div>
+
+    <div class="claim-list">
+      <a href="#" class="claim-row">
+        <div class="claim-row-main">
+          <div class="claim-veh">Maruti Swift Vxi</div>
+          <div class="claim-row-meta">MH 32 H 4389 · 12 Feb 2026</div>
+        </div>
+        <span class="chip chip-success">Settled</span>
+        <svg class="row-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+
+      <a href="#" class="claim-row">
+        <div class="claim-row-main">
+          <div class="claim-veh">Hyundai Verna Lxi</div>
+          <div class="claim-row-meta">MH 44 H 5475 · 18 Aug 2025</div>
+        </div>
+        <span class="chip chip-success">Settled</span>
+        <svg class="row-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+
+      <a href="#" class="claim-row">
+        <div class="claim-row-main">
+          <div class="claim-veh">Maruti Swift Vxi</div>
+          <div class="claim-row-meta">MH 32 H 4389 · 03 Mar 2025</div>
+        </div>
+        <span class="chip chip-danger">Repudiated</span>
+        <svg class="row-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+
+      <a href="#" class="claim-row">
+        <div class="claim-row-main">
+          <div class="claim-veh">Hyundai Verna Lxi</div>
+          <div class="claim-row-meta">MH 44 H 5475 · 21 Nov 2024</div>
+        </div>
+        <span class="chip chip-neutral">Withdrawn</span>
+        <svg class="row-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+    </div>
+
+    <div class="toast" id="toast"><span class="dot"></span> Logged in successfully</div>
+  </div>
+</div>
+
+<script src="_partials.js"></script>
+<script>
+  injectChrome({ brand: 'Zoop.one', sub: 'Claims Registration Form', back: 'policy.html' });
+
+  const params = new URLSearchParams(location.search);
+  if (params.get('policy') === 'swift') {
+    document.getElementById('ongoingVehicle').textContent = 'Maruti Swift Vxi';
+    document.querySelector('.ongoing-sub').textContent = 'MH 32 H 4389 · ZP-CLM-2026-04-1842';
+  }
+
+  setTimeout(() => {
+    const t = document.getElementById('toast');
+    if (t) t.classList.add('toast-out');
+  }, 2800);
+
+  // Ongoing claims auto-scroll carousel
+  (function() {
+    const carousel = document.getElementById('ongoingCarousel');
+    const dots = document.querySelectorAll('#carouselDots .carousel-dot');
+    if (!carousel || dots.length < 2) return;
+
+    const cards = carousel.querySelectorAll('.ongoing-card');
+    let index = 0;
+    let paused = false;
+
+    function goTo(i) {
+      index = (i + cards.length) % cards.length;
+      const target = cards[index];
+      carousel.scrollTo({ left: target.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+      dots.forEach((d, di) => d.classList.toggle('active', di === index));
+    }
+
+    // Sync dots when user manually scrolls/swipes
+    let scrollTimer;
+    carousel.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        const w = carousel.clientWidth;
+        const i = Math.round(carousel.scrollLeft / (w - 40 + 12));
+        const clamped = Math.max(0, Math.min(cards.length - 1, i));
+        if (clamped !== index) {
+          index = clamped;
+          dots.forEach((d, di) => d.classList.toggle('active', di === index));
+        }
+      }, 80);
+    });
+
+    // Pause auto-scroll on user interaction
+    ['pointerdown', 'touchstart', 'mouseenter'].forEach(ev =>
+      carousel.addEventListener(ev, () => { paused = true; })
+    );
+
+    setInterval(() => {
+      if (paused) return;
+      goTo(index + 1);
+    }, 3500);
+  })();
+</script>
+</body>
+</html>

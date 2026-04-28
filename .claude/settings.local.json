@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3)",
+      "Bash(mkdir -p \"/Users/sanchitatayde/.claude/skills\")",
+      "Bash(mv \"/Users/sanchitatayde/Claude Code- Claims V2/.claude/skills/\"* \"/Users/sanchitatayde/.claude/skills/\")",
+      "Read(//Users/sanchitatayde/.claude/**)",
+      "Bash(node -e \"console.log\\(require\\('docx'\\).version || 'docx available'\\)\")",
+      "Bash(npm install *)",
+      "Bash(node build_doc_matrix.js)",
+      "Bash(python3 \"/Users/sanchitatayde/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/52cff004-9ebf-4b97-9d35-73016341a592/584ca57a-7185-48e1-a00d-9d85e0e52c07/skills/docx/scripts/office/validate.py\" \"/Users/sanchitatayde/Claude Code- Claims V2/Claims_V2_Document_Collection_Matrix.docx\")",
+      "Bash(cupsfilter --help)",
+      "Bash(node build_pdf.js)",
+      "WebSearch",
+      "WebFetch(domain:nationalinsurance.nic.co.in)",
+      "WebFetch(domain:uiic.co.in)",
+      "WebFetch(domain:newindia.co.in)",
+      "WebFetch(domain:inspektlabs.com)",
+      "Bash(npm list *)",
+      "Bash(node -e ' *)",
+      "WebFetch(domain:oicl-cms-media.s3.ap-south-1.amazonaws.com)",
+      "mcp__27d86fcc-54fb-42b0-8217-98c9ce9991e0__get_metadata",
+      "Bash(awk '/<frame id=\"[0-9:]+\" name=\"/{ if\\(match\\($0,/<frame id=\"[0-9:]+\" name=\"[^\"]+\"/\\)\\) print substr\\($0,RSTART,RLENGTH\\)}' \"/Users/sanchitatayde/.claude/projects/-Users-sanchitatayde-Claude-Code--Claims-V2/f4042954-921a-47eb-a337-35d65e25039d/tool-results/mcp-27d86fcc-54fb-42b0-8217-98c9ce9991e0-get_metadata-1777375809470.txt\")",
+      "mcp__27d86fcc-54fb-42b0-8217-98c9ce9991e0__get_screenshot",
+      "Bash(python3 -m http.server 8765)",
+      "Bash(echo \"Server PID: $!\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8765/index.html)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8765/policy.html)"
+    ]
+  }
+}

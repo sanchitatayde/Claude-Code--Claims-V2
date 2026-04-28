@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Quagga Tech · Verify Mobile</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="phone">
+  <div class="body">
+    <div class="green-header">
+      <h1 class="headline">Verify &amp; Proceed to <span class="accent">Vehicle Records</span></h1>
+      <div class="headline-divider"></div>
+      <p class="subhead">Enter your vehicle details required proceed with your Claim Details :</p>
+    </div>
+
+    <div style="padding: 16px 24px 0;">
+      <div class="phone-input">
+        <div class="country">
+          <span class="flag">🇮🇳</span>
+          <span class="chev">▾</span>
+        </div>
+        <input id="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="e.g. 00000 00000" oninput="onPhoneChange()" />
+      </div>
+
+      <div class="divider-or">OR</div>
+
+      <a href="rc.html" class="alt-action">
+        <div class="ic">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <text x="12" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" stroke="none">सत्य</text>
+          </svg>
+        </div>
+        <div class="lbl">Enter Vehicle RC Number</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="_partials.js"></script>
+<script>
+  injectChrome({ brand: 'Zoop.one', sub: 'Claims Registration Form', back: 'index.html' });
+  injectFooter(`
+    <label class="checkbox-row">
+      <input type="checkbox" id="agree" onchange="onPhoneChange()" />
+      <span>I agree to download my <strong>RC records</strong> from the <strong>Parivahan Registry</strong> for Verification.</span>
+    </label>
+    <a id="cta" href="javascript:void(0)" class="btn btn-disabled">Send OTP</a>
+  `);
+
+  function onPhoneChange() {
+    const v = (document.getElementById('phone').value || '').replace(/\s/g,'');
+    const ok = v.length === 10 && document.getElementById('agree').checked;
+    const cta = document.getElementById('cta');
+    if (ok) {
+      cta.classList.remove('btn-disabled');
+      cta.classList.add('btn-primary');
+      cta.setAttribute('href', 'otp.html?via=mobile');
+    } else {
+      cta.classList.add('btn-disabled');
+      cta.classList.remove('btn-primary');
+      cta.setAttribute('href', 'javascript:void(0)');
+    }
+  }
+</script>
+</body>
+</html>

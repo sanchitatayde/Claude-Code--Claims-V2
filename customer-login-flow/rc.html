@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Quagga Tech · Verify RC</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="phone">
+  <div class="body">
+    <div class="green-header">
+      <h1 class="headline">Verify &amp; Proceed to <span class="accent">Vehicle Records</span></h1>
+      <div class="headline-divider"></div>
+      <p class="subhead">Enter your vehicle details required proceed with your Claim Details :</p>
+    </div>
+
+    <div style="padding: 16px 24px 0;">
+      <div class="field-label">
+        <div class="emblem">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="1.2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2v20M2 12h20" />
+            <circle cx="12" cy="12" r="3" fill="#0a0a0a"/>
+          </svg>
+        </div>
+        Enter Vehicle RC Number
+      </div>
+      <input class="input" id="rc" placeholder="MH 12 AB 4321" oninput="onRCChange()" autocomplete="off" />
+      <div class="field-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#00c266"><path d="M12 1l9 4v6c0 5.5-3.8 10.7-9 12-5.2-1.3-9-6.5-9-12V5l9-4z"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <strong style="color:#0a0a0a">Your RC Number</strong>&nbsp;will be encrypted &amp; 100% safe
+      </div>
+
+      <div style="height: 16px"></div>
+
+      <a href="mobile.html" class="alt-action">
+        <div class="ic">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4l3 0 2 5-2 1a11 11 0 0 0 6 6l1-2 5 2 0 3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        </div>
+        <div class="lbl">Proceed with Mobile Number</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 6 15 12 9 18"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="_partials.js"></script>
+<script>
+  injectChrome({ brand: 'Zoop.one', sub: 'Claims Registration Form', back: 'mobile.html' });
+  injectFooter(`
+    <label class="checkbox-row">
+      <input type="checkbox" id="agree" onchange="onRCChange()" />
+      <span>I agree to download my <strong>RC records</strong> from the <strong>Parivahan Registry</strong> for Verification.</span>
+    </label>
+    <a id="cta" href="javascript:void(0)" class="btn btn-disabled">Verify RC Number</a>
+  `);
+
+  function onRCChange() {
+    const v = (document.getElementById('rc').value || '').replace(/\s/g,'').toUpperCase();
+    const ok = v.length >= 8 && document.getElementById('agree').checked;
+    const cta = document.getElementById('cta');
+    if (ok) {
+      cta.classList.remove('btn-disabled');
+      cta.classList.add('btn-primary');
+      cta.setAttribute('href', 'otp.html?via=rc');
+    } else {
+      cta.classList.add('btn-disabled');
+      cta.classList.remove('btn-primary');
+      cta.setAttribute('href', 'javascript:void(0)');
+    }
+  }
+</script>
+</body>
+</html>
