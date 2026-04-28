@@ -68,7 +68,7 @@
   const params = new URLSearchParams(location.search);
   const via = params.get('via');
   const backHref = via === 'rc' ? 'rc.html' : 'mobile.html';
-  const verifyDest = via === 'rc' ? 'dashboard.html' : 'policy.html';
+  const verifyDest = 'dashboard.html';
   injectChrome({ brand: 'Zoop.one', sub: 'Claims Registration Form', back: backHref });
 
   const sheet = document.getElementById('sheet');

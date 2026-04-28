@@ -102,13 +102,7 @@
 
 <script src="_partials.js"></script>
 <script>
-  injectChrome({ brand: 'Zoop.one', sub: 'Claims Registration Form', back: 'policy.html' });
-
-  const params = new URLSearchParams(location.search);
-  if (params.get('policy') === 'swift') {
-    document.getElementById('ongoingVehicle').textContent = 'Maruti Swift Vxi';
-    document.querySelector('.ongoing-sub').textContent = 'MH 32 H 4389 · ZP-CLM-2026-04-1842';
-  }
+  injectChrome({ brand: 'Zoop.one', sub: 'Claims Registration Form', back: 'otp.html' });
 
   setTimeout(() => {
     const t = document.getElementById('toast');
