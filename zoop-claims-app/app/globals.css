@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* ============================================
+   Zoop Claims · design tokens
+   Ported from /customer-login-flow/styles.css
+   ============================================ */
+
+:root {
+  /* Surfaces */
+  --color-bg: #1a1a1a;        /* page backdrop (dark, for phone-on-stage) */
+  --color-screen: #ffffff;    /* in-phone surface */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f9fafb;
+
+  /* Ink */
+  --color-ink: #111111;
+  --color-muted: #6b7280;
+  --color-subtle: #9ca3af;
+
+  /* Brand green */
+  --color-brand-50:  #e9fff3;
+  --color-brand-100: #d4fbe4;
+  --color-brand-200: #a8f5c8;
+  --color-brand-400: #00d672;
+  --color-brand-500: #00c266;
+  --color-brand-700: #0e7c3a;
+
+  /* Borders */
+  --color-border: #e5e7eb;
+  --color-border-strong: #d1d5db;
+
+  /* Semantic */
+  --color-info-bg: #f3f4f6;
+  --color-warn:    #b45309;
+  --color-warn-50: #fffbeb;
+  --color-warn-100:#fef3c7;
+  --color-danger:  #b91c1c;
+  --color-danger-50: #fef2f2;
+  --color-danger-500: #ef4444;
+
+  /* Spacing — MD3 4dp scale */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-7: 32px; --s-8: 40px; --s-9: 48px;
+
+  /* Type scale */
+  --t-display: 28px;
+  --t-headline: 22px;
+  --t-title-lg: 18px;
+  --t-title-md: 16px;
+  --t-title-sm: 14px;
+  --t-body-lg:  15px;
+  --t-body-md:  14px;
+  --t-body-sm:  13px;
+  --t-label-lg: 13px;
+  --t-label-md: 12px;
+  --t-label-sm: 11px;
+
+  /* Elevation */
+  --elev-1: 0 1px 2px rgba(15,23,42,0.04);
+  --elev-2: 0 1px 2px rgba(15,23,42,0.06), 0 2px 6px rgba(15,23,42,0.04);
+  --elev-3: 0 4px 12px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.04);
+  --shadow-phone: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 10px #1f1f1f, 0 0 0 12px #2c2c2c;
+
+  /* Interactive target */
+  --target: 48px;
+
+  /* Radii */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-phone: 44px;
+}
+
+/* Expose tokens to Tailwind utility generation (Tailwind v4 @theme) */
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-screen: var(--color-screen);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-subtle: var(--color-subtle);
+  --color-brand-50: var(--color-brand-50);
+  --color-brand-100: var(--color-brand-100);
+  --color-brand-200: var(--color-brand-200);
+  --color-brand-400: var(--color-brand-400);
+  --color-brand-500: var(--color-brand-500);
+  --color-brand-700: var(--color-brand-700);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-warn: var(--color-warn);
+  --color-warn-50: var(--color-warn-50);
+  --color-warn-100: var(--color-warn-100);
+  --color-danger: var(--color-danger);
+  --color-danger-50: var(--color-danger-50);
+
+  --font-heading: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+}
+
+/* Base */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+/* Phone frame — exactly like the HTML prototype */
+.phone {
+  width: 390px;
+  height: 844px;
+  background: var(--color-screen);
+  border-radius: var(--r-phone);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-phone);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-400);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+/* Tabular numbers for ₹ amounts and OTP */
+.tnum { font-variant-numeric: tabular-nums; }
