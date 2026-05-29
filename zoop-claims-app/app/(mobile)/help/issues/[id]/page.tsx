@@ -9,7 +9,7 @@ import { getHelpClaim, getIssueResponse } from "@/lib/mock-data";
 
 export default function IssueResponsePage() {
   return (
-    <React.Suspense fallback={<TopBar variant="back" title="…" backHref="/help/pick-claim" />}>
+    <React.Suspense fallback={<TopBar variant="back" leadingIcon="close" title="…" backHref="/help/pick-claim" />}>
       <IssueResponseContent />
     </React.Suspense>
   );
@@ -24,7 +24,7 @@ function IssueResponseContent() {
   if (!issue) {
     return (
       <>
-        <TopBar variant="back" title="Issue not found" backHref={`/help/issues?claim=${claim.shortId}`} />
+        <TopBar variant="back" leadingIcon="close" title="Issue not found" backHref={`/help/issues?claim=${claim.shortId}`} />
         <div className="flex-1 px-5 py-6 text-[14px] text-muted">
           We couldn&apos;t find this issue. Go back and pick another, or talk to the team.
         </div>
@@ -36,6 +36,7 @@ function IssueResponseContent() {
     <>
       <TopBar
         variant="back"
+        leadingIcon="close"
         title={issue.title}
         backHref={`/help/issues?claim=${claim.shortId}`}
       />

@@ -11,6 +11,8 @@ interface BackBarProps {
   sub?: string;
   rightSlot?: React.ReactNode;
   backHref?: string;
+  /** Swap the leading chevron for a close (✕). Default: back. */
+  leadingIcon?: "back" | "close";
 }
 
 interface BrandBarProps {
@@ -31,14 +33,15 @@ export function TopBar(props: TopBarProps) {
   const router = useRouter();
 
   if (props.variant === "back") {
+    const isClose = props.leadingIcon === "close";
     return (
       <div className="flex items-center gap-3 px-2 pr-4 py-2 bg-white border-b border-neutral-100">
         <button
-          aria-label="Back"
+          aria-label={isClose ? "Close" : "Back"}
           onClick={() => (props.backHref ? router.push(props.backHref) : router.back())}
           className="h-11 w-11 inline-flex items-center justify-center rounded-full hover:bg-surface-alt"
         >
-          <ChevronLeft />
+          {isClose ? <CloseIcon /> : <ChevronLeft />}
         </button>
         <div className="flex-1 min-w-0">
           <div className="font-heading text-[16px] font-semibold leading-tight truncate">
@@ -97,6 +100,15 @@ function ChevronLeft() {
   return (
     <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   );
 }
