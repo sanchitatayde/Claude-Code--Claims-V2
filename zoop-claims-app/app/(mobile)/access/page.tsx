@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/Input";
 
 const USERNAME = "ZoopClaims";
 const PASSWORD = "Claims@2026";
-const COOKIE_DAYS = 30;
 
 export default function AccessPage() {
   return (
@@ -46,8 +45,9 @@ function AccessForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === USERNAME && password === PASSWORD) {
-      const maxAge = 60 * 60 * 24 * COOKIE_DAYS;
-      document.cookie = `zoop_unlocked=1; path=/; max-age=${maxAge}; SameSite=Lax`;
+      // Session-only cookie: no max-age / expires → cleared when the browser
+      // tab closes. Means every fresh visit re-prompts for credentials.
+      document.cookie = `zoop_unlocked=1; path=/; SameSite=Lax`;
       router.replace(next.startsWith("/") ? next : "/login");
     } else {
       setError("Incorrect username or password.");
