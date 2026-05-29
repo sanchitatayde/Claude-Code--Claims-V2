@@ -47,7 +47,7 @@ function AccessForm() {
     if (username === USERNAME && password === PASSWORD) {
       // Session-only cookie: no max-age / expires → cleared when the browser
       // tab closes. Means every fresh visit re-prompts for credentials.
-      document.cookie = `zoop_unlocked=1; path=/; SameSite=Lax`;
+      document.cookie = `zoop_session=1; path=/; SameSite=Lax`;
       router.replace(next.startsWith("/") ? next : "/login");
     } else {
       setError("Incorrect username or password.");

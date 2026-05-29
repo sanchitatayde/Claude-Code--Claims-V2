@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 /**
- * Demo access gate. Until a valid `zoop_unlocked=1` cookie is present, every
+ * Demo access gate. Until a valid `zoop_session=1` cookie is present, every
  * request is redirected to /access. The cookie is set by /access on a correct
  * username + password.
  */
@@ -20,7 +20,7 @@ export function proxy(request: NextRequest) {
   }
 
   // Allow through if unlocked
-  if (request.cookies.get("zoop_unlocked")?.value === "1") {
+  if (request.cookies.get("zoop_session")?.value === "1") {
     return NextResponse.next();
   }
 
