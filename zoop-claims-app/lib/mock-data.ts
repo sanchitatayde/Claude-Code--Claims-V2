@@ -1,5 +1,6 @@
 import type {
   ActiveClaim,
+  ChatFaq,
   ClaimSummary,
   HelpCategory,
   HelpClaimContext,
@@ -442,7 +443,8 @@ export const QUICK_READS: QuickRead[] = [
  *  yet, or when the source claim isn't in ALL_CLAIMS. Mirrors the screenshots. */
 export const DEFAULT_HELP_CLAIM: HelpClaimContext = {
   shortId: "CL-04788",
-  vehicle: "Hyundai Verna",
+  vehicle: "Mahindra Scorpio",
+  regNo: "MH-56 M 7854",
   insurer: "ICICI Lombard",
   insurerCode: "ICICI",
   stage: "Repair & completion",
@@ -454,7 +456,8 @@ export function getHelpClaim(shortId?: string | null): HelpClaimContext {
   if (!c) return { ...DEFAULT_HELP_CLAIM, shortId };
   return {
     shortId: c.shortId,
-    vehicle: c.vehicle.replace(/\s+Lxi$|\s+Vxi$/i, ""),
+    vehicle: c.vehicle.replace(/\s+Lxi$|\s+Vxi$|\s+S5$/i, ""),
+    regNo: DEFAULT_HELP_CLAIM.regNo,
     insurer: c.insurer,
     insurerCode: c.insurer === "HDFC Ergo" ? "HDFC" : "ICICI",
     stage: stageFromStatus(c.status),
@@ -605,6 +608,88 @@ export const ISSUE_RESPONSES: Record<string, IssueResponse> = {
     ],
   },
 };
+
+/* ------------------------------------------------------------------ */
+/* Support chat — FAQ menu and canned system responses                 */
+/* ------------------------------------------------------------------ */
+
+/** Reusable Survey-stage card surfaced in several FAQ responses. */
+const SURVEY_CARD = {
+  headline: "Your claim is at the Survey stage.",
+  rows: [
+    { label: "Surveyor",          value: "K. Sharma" },
+    { label: "Visit scheduled",   value: "Tomorrow · 10 am" },
+    { label: "Settlement target", value: "by 18 May" },
+  ],
+};
+
+export const SUPPORT_CHAT_FAQS: ChatFaq[] = [
+  {
+    id: "where",
+    label: "Where is my claim right now?",
+    response: { intro: "Provide your claim no. or Vehicle no. to proceed", card: SURVEY_CARD },
+  },
+  {
+    id: "docs",
+    label: "What documents are still pending?",
+    response: {
+      intro: "Two documents are still pending on your claim.",
+      card: {
+        headline: "Pending documents",
+        rows: [
+          { label: "Driving licence", value: "Awaiting upload" },
+          { label: "Repair estimate", value: "Awaiting workshop" },
+        ],
+      },
+    },
+  },
+  {
+    id: "settlement",
+    label: "When will I get my settlement?",
+    response: {
+      intro: "Cashless settlement happens once the surveyor approves the estimate.",
+      card: {
+        headline: "Settlement timeline",
+        rows: [
+          { label: "Survey report",       value: "by 12 May" },
+          { label: "Estimate approval",   value: "by 15 May" },
+          { label: "Payout to workshop",  value: "by 18 May" },
+        ],
+      },
+    },
+  },
+  {
+    id: "amount",
+    label: "How was the claim amount calculated?",
+    response: {
+      intro: "Your final payable amount is computed from the surveyor's estimate.",
+      card: {
+        headline: "Calculation",
+        rows: [
+          { label: "Approved estimate", value: "₹38,420" },
+          { label: "Depreciation",      value: "− ₹3,200" },
+          { label: "Policy excess",     value: "− ₹1,000" },
+          { label: "Net payable",       value: "₹34,220" },
+        ],
+      },
+    },
+  },
+  {
+    id: "tow",
+    label: "Track my tow / pickup",
+    response: {
+      intro: "Your pickup is scheduled and the driver will share live location 30 min before arrival.",
+      card: {
+        headline: "Pickup status",
+        rows: [
+          { label: "Pickup window", value: "Today · 4 – 6 pm" },
+          { label: "Driver",        value: "R. Patel · ●●●●● 12" },
+          { label: "Destination",   value: "Mahindra Service Centre" },
+        ],
+      },
+    },
+  },
+];
 
 export function getIssueResponse(id: string, ctx: HelpClaimContext): IssueResponse | null {
   const raw = ISSUE_RESPONSES[id];

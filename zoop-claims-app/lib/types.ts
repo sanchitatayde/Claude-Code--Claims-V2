@@ -167,7 +167,24 @@ export interface IssueResponse {
 export interface HelpClaimContext {
   shortId: string;       // CL-04788
   vehicle: string;       // Hyundai Verna
+  regNo: string;         // MH 56 M 7854
   insurer: string;       // ICICI Lombard
   insurerCode: string;   // ICICI
   stage: string;         // "Repair & completion"
+}
+
+/** One option in the support-chat FAQ menu. */
+export interface ChatFaq {
+  id: string;
+  label: string;
+  /** When the user taps this option, the system replies with this card. */
+  response: {
+    /** Optional pre-text shown above the card. */
+    intro?: string;
+    /** Structured "claim status" card. If undefined, only `intro` is rendered. */
+    card?: {
+      headline: string;
+      rows: { label: string; value: string }[];
+    };
+  };
 }

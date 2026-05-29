@@ -66,6 +66,7 @@ export default function HelpPage() {
                 title="Chat with us"
                 meta="Live now · avg reply 1 min"
                 dotColor="bg-brand-500"
+                href="/help/chat"
               />
               <TalkRow
                 icon={<PhoneIcon />}
@@ -120,18 +121,16 @@ function TalkRow({
   title,
   meta,
   dotColor,
+  href,
 }: {
   icon: React.ReactNode;
   title: string;
   meta: string;
   dotColor: string;
+  href?: string;
 }) {
-  return (
-    <button
-      // TODO: open chat / dial (deferred)
-      type="button"
-      className="w-full flex items-center gap-3 rounded-2xl border border-border bg-white p-3 hover:bg-surface-alt transition-colors text-left"
-    >
+  const inner = (
+    <>
       <span className="h-10 w-10 rounded-lg bg-surface-alt inline-flex items-center justify-center text-ink shrink-0" aria-hidden>
         {icon}
       </span>
@@ -143,6 +142,27 @@ function TalkRow({
         </span>
       </span>
       <Chevron />
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="w-full flex items-center gap-3 rounded-2xl border border-border bg-white p-3 hover:bg-surface-alt transition-colors text-left"
+      >
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      // TODO: dial out (deferred)
+      type="button"
+      className="w-full flex items-center gap-3 rounded-2xl border border-border bg-white p-3 hover:bg-surface-alt transition-colors text-left"
+    >
+      {inner}
     </button>
   );
 }
