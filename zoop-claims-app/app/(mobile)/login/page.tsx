@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { TopBar } from "@/components/mobile/TopBar";
 import { Button } from "@/components/ui/Button";
@@ -99,10 +100,12 @@ export default function LoginPage() {
           </Button>
           <p className="text-center text-[13px] text-muted mt-3">
             Having trouble?{" "}
-            {/* TODO: help destination (deferred per user) */}
-            <button type="button" className="text-ink font-semibold underline-offset-2 hover:underline">
+            <Link
+              href="/help/contact-admin"
+              className="text-ink font-semibold underline-offset-2 hover:underline"
+            >
               Get help
-            </button>
+            </Link>
           </p>
         </div>
       </form>

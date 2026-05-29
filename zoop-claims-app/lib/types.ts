@@ -101,3 +101,73 @@ export interface TaskStatusItem {
   meta: string;
   state: "pending" | "submitted";
 }
+
+/* ============================================================
+   Help / Support flow
+   ============================================================ */
+
+/** Open or resolved support case (Helpdesk + Your cases pages) */
+export interface SupportCase {
+  id: string;          // SUP-2394
+  claimShortId: string;// CL-04722
+  title: string;       // "Insurer queried the estimate"
+  state: "open" | "resolved";
+  unreadCount?: number;
+  /** "2:00 PM" / "Yesterday" / "resolved 21 May" */
+  dateLabel: string;
+}
+
+export type HelpCategoryKey =
+  | "specific-claim"
+  | "finance"
+  | "estimates"
+  | "surveyor"
+  | "documents"
+  | "bank-profile";
+
+export interface HelpCategory {
+  key: HelpCategoryKey;
+  title: string;
+  sub: string;
+  icon: "claim" | "rupee" | "estimate" | "surveyor" | "doc" | "bank";
+}
+
+export interface QuickRead {
+  id: string;
+  title: string;
+  minutes: number;
+}
+
+export interface IssueSummary {
+  id: string;
+  title: string;
+  /** Only present on the 'most relevant' featured cards */
+  sub?: string;
+  /** Optional ACTION NEEDED tag */
+  actionNeeded?: boolean;
+  /** Section it belongs to under 'ALL ISSUES' */
+  group: "featured" | "payments" | "estimates" | "surveyor" | "documents" | "bank-profile";
+}
+
+/** Issue response body: rendered on /help/issues/[id]?claim=… */
+export interface IssueResponse {
+  id: string;
+  title: string;
+  /** "Here's what we know" paragraph */
+  summary: string;
+  steps: {
+    label: string;
+    date?: string;
+    state: "completed" | "current" | "upcoming";
+  }[];
+  confirms?: string[]; // ✓ rows under the steps
+}
+
+/** Claim context for the help flow (smaller than a full ClaimSummary) */
+export interface HelpClaimContext {
+  shortId: string;       // CL-04788
+  vehicle: string;       // Hyundai Verna
+  insurer: string;       // ICICI Lombard
+  insurerCode: string;   // ICICI
+  stage: string;         // "Repair & completion"
+}
