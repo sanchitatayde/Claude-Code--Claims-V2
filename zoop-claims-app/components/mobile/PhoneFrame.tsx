@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StatusBar } from "./StatusBar";
+import { FlowSwitchFab } from "./FlowSwitchFab";
 
 interface PhoneFrameProps {
   children: React.ReactNode;
@@ -16,6 +17,8 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
       <div className="phone flex flex-col">
         <StatusBar />
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden">{children}</div>
+        {/* Persistent flow-switch CTA. Hidden on /access. */}
+        <FlowSwitchFab />
       </div>
     </div>
   );

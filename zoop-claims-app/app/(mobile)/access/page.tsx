@@ -11,11 +11,12 @@ const PASSWORD = "Claims@2026";
 
 type Flow = "customer" | "garage";
 
-/** Where each flow lands after a successful gate. */
-const FLOW_HOME: Record<Flow, string> = {
-  customer: "/login",
-  garage: "/garage/login",
-};
+/** Customer flow lives in this app; Garage flow lives on a separate Vercel
+ *  deployment, so picking it just hands the user off there. Credentials are
+ *  not enforced for the external hand-off — the user lands directly on the
+ *  Garage login screen. */
+const CUSTOMER_HOME = "/login";
+const GARAGE_EXTERNAL_URL = "https://garage-ext.vercel.app/login";
 
 export default function AccessPage() {
   return (
@@ -55,27 +56,37 @@ function AccessForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Garage flow is hosted on a different Vercel deployment. Hand the user
+    // off externally — no credentials, no session cookie on this domain.
+    if (flow === "garage") {
+      window.location.href = GARAGE_EXTERNAL_URL;
+      return;
+    }
+
+    // Customer flow: enforce the demo credentials.
     if (username !== USERNAME || password !== PASSWORD) {
       setError("Incorrect username or password.");
       return;
     }
 
-    // Session-only cookies: no max-age / expires → cleared when the browser
-    // tab closes. Every fresh visit re-prompts for credentials.
+    // Session-only cookies (no max-age) → cleared when the browser tab
+    // closes, so every fresh visit re-prompts.
     document.cookie = `zoop_session=1; path=/; SameSite=Lax`;
-    document.cookie = `zoop_flow=${flow}; path=/; SameSite=Lax`;
+    document.cookie = `zoop_flow=customer; path=/; SameSite=Lax`;
 
-    // Pick where to land:
-    //   1. Honour ?next= if it matches the chosen flow's namespace
-    //   2. Otherwise route to that flow's home
-    const home = FLOW_HOME[flow];
-    const belongsToFlow =
-      intendedNext &&
-      (flow === "garage"
-        ? intendedNext.startsWith("/garage")
-        : !intendedNext.startsWith("/garage"));
-    router.replace(belongsToFlow ? intendedNext! : home);
+    // Honour ?next= when the proxy bounced the user here; otherwise land
+    // on the Customer home.
+    const safeNext =
+      intendedNext && !intendedNext.startsWith("/garage")
+        ? intendedNext
+        : CUSTOMER_HOME;
+    router.replace(safeNext);
   };
+
+  /** Garage handoff doesn't need credentials — only the dropdown matters. */
+  const isGarage = flow === "garage";
+  const canSubmit = isGarage || (Boolean(username) && Boolean(password));
 
   return (
     <AccessShell>
@@ -93,31 +104,43 @@ function AccessForm() {
           </p>
 
           <div className="mt-6 rounded-2xl bg-surface-alt p-4 space-y-3">
-            <Input
-              label="Username"
-              value={username}
-              onChange={handleChange(setUsername)}
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellCheck={false}
-              autoComplete="off"
-            />
-            <Input
-              label="Password"
-              type="password"
-              value={password}
-              onChange={handleChange(setPassword)}
-              autoComplete="off"
-              error={error || undefined}
-            />
             <FlowSelect value={flow} onChange={setFlow} />
+            {/* Credentials are only needed for the Customer flow — the Garage
+                flow is a hand-off to a separate deployment that owns its own
+                auth. */}
+            {!isGarage ? (
+              <>
+                <Input
+                  label="Username"
+                  value={username}
+                  onChange={handleChange(setUsername)}
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  autoComplete="off"
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={handleChange(setPassword)}
+                  autoComplete="off"
+                  error={error || undefined}
+                />
+              </>
+            ) : (
+              <p className="text-[13px] text-muted leading-relaxed">
+                The Garage portal opens in a new window with its own sign-in.
+              </p>
+            )}
           </div>
         </div>
 
         <div className="px-5 pb-6 pt-3 border-t border-neutral-100">
-          <Button type="submit" fullWidth disabled={!username || !password}>
+          <Button type="submit" fullWidth disabled={!canSubmit}>
             <span className="inline-flex items-center gap-2">
-              Continue <span aria-hidden>→</span>
+              {isGarage ? "Open Garage portal" : "Continue"}{" "}
+              <span aria-hidden>→</span>
             </span>
           </Button>
         </div>
