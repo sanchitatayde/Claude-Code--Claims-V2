@@ -3,7 +3,9 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 
-const GARAGE_URL = "https://garage-ext.vercel.app/login";
+/** Go through the Garage bridge endpoint so the visitor skips the
+ *  garage-ext /unlock gate (they've already authenticated on this side). */
+const GARAGE_URL = "https://garage-ext.vercel.app/api/bridge?next=/login";
 
 /**
  * Floating "Switch to Garage" CTA pinned to the bottom-right of the phone

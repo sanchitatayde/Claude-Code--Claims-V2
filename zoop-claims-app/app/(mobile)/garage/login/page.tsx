@@ -6,5 +6,7 @@ import { redirect } from "next/navigation";
  * "Switch to Garage" CTA and the access-gate dropdown converge on one URL.
  */
 export default function GarageLoginRedirect() {
-  redirect("https://garage-ext.vercel.app/login");
+  // Go via the bridge so the visitor lands directly on /login (no /unlock
+  // password gate).
+  redirect("https://garage-ext.vercel.app/api/bridge?next=/login");
 }

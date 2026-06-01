@@ -16,7 +16,10 @@ type Flow = "customer" | "garage";
  *  not enforced for the external hand-off — the user lands directly on the
  *  Garage login screen. */
 const CUSTOMER_HOME = "/login";
-const GARAGE_EXTERNAL_URL = "https://garage-ext.vercel.app/login";
+/** Bridge endpoint on the Garage app sets its own unlock cookie + redirects
+ *  to /login, so the visitor skips garage-ext's own password gate. */
+const GARAGE_EXTERNAL_URL =
+  "https://garage-ext.vercel.app/api/bridge?next=/login";
 
 export default function AccessPage() {
   return (
